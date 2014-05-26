@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <classPathEntry location="libs/ojdbc14.jar" />
+
+  <context id="oracleReverse" targetRuntime="MyBatis3">
+  	<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+  		<property name="searchString" value="Example$"/>
+  		<property name="replaceString" value="QueryCriteria"/>
+  	</plugin>
+  
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+        connectionURL="jdbc:oracle:thin:@192.168.170.53:1521:powerpf"
+        userId="egov_new03"
+        password="oracle">
+    </jdbcConnection>
+
+    <javaTypeResolver  >
+      <property name="forceBigDecimals" value="true" />
+    </javaTypeResolver>
+    <javaModelGenerator targetPackage="com.jcc.mvn.login.model" targetProject="D:\\DemoWorkSpace\\PowerListWorkSpace\\spring_mvn\\src\\main\\java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.jcc.mvn.login.mapper" targetProject="D:\\DemoWorkSpace\\PowerListWorkSpace\\spring_mvn\\src\\main\\java">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+<!--     <javaClientGenerator type="XMLMAPPER" targetPackage="transactProduct"  targetProject="G:/mp_workspace/dpm/src"> -->
+<!--       <property name="enableSubPackages" value="true" /> -->
+<!--     </javaClientGenerator> -->
+
+    <table  alias=""  tableName="t_login_users" >
+    	<generatedKey column="id" sqlStatement="select  seq_t_login_users.nextval from dual;"/>
+    </table>
+
+  </context>
+</generatorConfiguration>
