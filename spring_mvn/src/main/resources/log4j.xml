@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="fileAppender" class="org.cbird.TimeSizeRollingFileAppender">
+		<param name="File" value="/logs/powerlist.log" />
+		<param name="MaxBackupIndex" value="300" />
+		<param name="Encoding" value="gb2312" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %p [%c] - [%m]%n" />
+		</layout>
+	</appender>
+	<root>
+        <priority value ="warn"/>
+        <appender-ref ref="fileAppender"/>
+    </root>    
+</log4j:configuration>

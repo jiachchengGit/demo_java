@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+<!-- 	<properties resource="startup.properties" /> -->
+	<typeAliases>
+	        <!-- 数据源 -->
+			<typeAlias type="com.jcc.base.db.mybatis.ProxoolDataSourceFactory" alias="PROXOOL" />
+	</typeAliases>
+	
+	<environments default="dbProxy">
+		<environment id="dbProxy">
+			<transactionManager type="JDBC" />
+			<dataSource type="PROXOOL">
+                <!-- 以下${}属性可以由start.properties文件注入，也可以在数据源中写，最后都是注入到数据源中 -->
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${URL}" />
+				<property name="user" value="${USER_NAME}" />
+				<property name="password" value="${PASSWORD}" />
+				<property name="minimumConnectionCount" value="10" />
+				<property name="maximumConnectionCount" value="20" />
+				<property name="prototype-count" value="15" />
+				<property name="house-keeping-test-sql" value="select 1 from dual" />
+				<property name="maximum-active-time" value="300000" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+<!-- 	   <mapper resource="service/ibatis/basicManagement/userinfo/UsersInfoMapper.xml"/> -->
+	</mappers>
+</configuration>

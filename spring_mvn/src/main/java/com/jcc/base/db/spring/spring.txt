@@ -1,0 +1,4 @@
+TIME:2014-01-03
+AUTHOR:JCC
+EXPLAIN:
+#该包下的工具是用于获取Spring数据库连接池中MyBatis的SQLSession

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+<!-- 	指定扫描路径 -->
+	<context:component-scan base-package="com.*"/>
+	<!--  
+		<context:include-filter type="aspectj" expression="com.datas.project.frontend.**.web.*"/>
+		<context:exclude-filter type="aspectj" expression="com.datas.project.admin.**.web.*"/>
+	-->
+<!-- 	</context:component-scan> -->
+	
+<!-- 	前台视图解析配置 -->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="text/html" />
+		<property name="favorParameter" value="false" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="amf" value="application/x-amf" />
+			</map>
+		</property>
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.JstlView" />
+					<property name="prefix" value="/WEB-INF/views/frontend/" />
+					<property name="suffix" value=".jsp" />
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.flex.http.AmfView" />
+			</list>
+		</property>
+	</bean>
+<!-- 配置spring文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<!-- 	<property name="maxUploadSize" value="10485760" />
+		<property name="maxInMemorySize" value="1024" /> -->
+	</bean>
+
+	<!-- 拦截Runtime异常 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView">
+			<value>index/error</value>
+		</property>
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">index/error</prop>
+				<prop
+					key="org.springframework.web.multipart.MaxUploadSizeExceededException">index/error</prop>
+			</props>
+		</property>
+	</bean>
+	
+<!-- 	Bean校验后处理器 -->
+	<bean class="org.springframework.validation.beanvalidation.BeanValidationPostProcessor"/>
+<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射，配置@Controller类方法参数注入方法  如： String updateDepartment(HttpServletRequest request,
+			HttpServletResponse response,Department dept) -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/plain;charset=UTF-8</value>
+						</list>
+					</property>
+					<property name="writeAcceptCharset" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+   <!--spring 操作日志处理-->	
+<!--    <aop:config proxy-target-class="true"> -->
+<!--      <aop:aspect id="goLogAspect" ref="logAnalysis"> -->
+<!--        <aop:pointcut id="actionPointcut" expression="execution(* com.datas.project.frontend.**.web.*Controller.*(..))" /> -->
+<!--        <aop:around pointcut-ref="actionPointcut" method="WriteSysLog" /> -->
+<!--      </aop:aspect> -->
+<!--   </aop:config> -->
+<!--   <bean id="logAnalysis" class="com.datas.project.frontend.syslog.annotation.LogAnnotationAnalysis"></bean> -->
+</beans>
